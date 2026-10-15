@@ -54,7 +54,7 @@ AA = QPainter.RenderHint.Antialiasing
 NoPen = Qt.PenStyle.NoPen
 NoBrush = Qt.BrushStyle.NoBrush
 
-TM: "ThemeManager" = None  # set in main() once QApplication exists
+TM: "ThemeManager" = None  
 
 
 
@@ -74,7 +74,7 @@ def load_custom_fonts():
                 QFontDatabase.addApplicationFont(str(f))
 
 
-# ───────────────────────────── icon bullshit ─────────────────────────────
+# icons are iconic hahahahahahah
 ICONS = {
     "menu": '<path d="M4 8h16"/><path d="M4 16h10"/>',
     "close": '<path d="M6 6l12 12"/><path d="M18 6L6 18"/>',
@@ -113,7 +113,7 @@ ICONS = {
 #    thankfully im good at image shi
 }
 FILLED_ICONS = {"play", "zap"}
-# soft tinted fill behind the outline, gives the set a duotone look
+
 DUO_ICONS = {"home", "box", "folder", "info", "palette", "vr", "shield", "file", "moon", "sun", "alert", "gamepad", "maximize", "restore"}
 _icon_cache: dict = {}
 
@@ -141,7 +141,7 @@ def icon_pixmap(name: str, color: str, size: int = 20) -> QPixmap:
     return pm
 
 
-# ───────────────────────────── Color bullshit ─────────────────────────────
+# color color hahhhahaa
 def mix(a: QColor, b: QColor, t: float) -> QColor:
     return QColor(
         int(a.red() + (b.red() - a.red()) * t),
@@ -169,7 +169,7 @@ def rgba(c: QColor, a: int) -> str:
     return f"rgba({c.red()}, {c.green()}, {c.blue()}, {a})"
 
 
-# ───────────────────────────── theme model ─────────────────────────────
+#theme hahhaha
 PRESETS = [
     ("rexon purple", "#8b5cf6"), ("ocean", "#38bdf8"), ("mint", "#34d399"), ("lava", "#f97316"),
     ("rose", "#fb7185"), ("sunrise", "#facc15"), ("crimson cauldron", "#ef4444"), ("orchid", "#e879f9"),
@@ -192,7 +192,7 @@ class Theme:
 def build_palette(t: Theme) -> dict:
     a = QColor(t.accent)
     if t.mode == "mono":
-        # the design: pure black, white outlines, white text. "subtle" is for hairlines that shouldn't glare
+        # red and green and mr mouse
         base = dict(bg="#000000", panel="#000000", card="#000000", border="#ffffff", hover="#1a1a1a",
                     text="#ffffff", muted="#b5b5b5", danger="#ff6b6b", success="#4ade80", warn="#fbbf24",
                     subtle="#3a3a3a")
@@ -331,7 +331,7 @@ QSlider::handle:horizontal { background: #ffffff; border: 2px solid $accent; wid
 
 
 class ThemeManager(QObject):
-    """Owns the current theme, persists it, applies the stylesheet, and re-tints icons."""
+   
     changed = Signal()
 
     def __init__(self):
@@ -344,7 +344,7 @@ class ThemeManager(QObject):
         self._timer.setSingleShot(True)
         self._timer.timeout.connect(self.apply)
 
-    # ----- mutation -----
+    #muration
     def set_accent(self, hex_color: str):
         c = QColor(hex_color)
         if c.isValid():
@@ -369,7 +369,7 @@ class ThemeManager(QObject):
         self.settings.setValue("theme/mode", self.theme.mode)
         self.settings.setValue("theme/gradient", self.theme.gradient)
         self.pal = build_palette(self.theme)
-        self._timer.start(25)  # coalesce rapid slider drags
+        self._timer.start(25)  #slider
 
     def apply(self):
         self.pal = build_palette(self.theme)
@@ -379,7 +379,7 @@ class ThemeManager(QObject):
         self.refresh_icons()
         self.changed.emit()
 
-    # ----- icons -----
+    # icos 
     def resolve(self, role: str) -> str:
         if role == "accent":
             return self.pal["accent_text"]
@@ -414,7 +414,7 @@ class ThemeManager(QObject):
             self.apply_icon(w)
 
 
-# ───────────────────────────── small utilities ─────────────────────────────
+
 def repolish(w: QWidget):
     w.style().unpolish(w)
     w.style().polish(w)
@@ -525,7 +525,7 @@ def section_label(text: str) -> QLabel:
     return l
 
 
-# ───────────────────────────── game / mod discovery ─────────────────────────────
+# mod discov + game
 def _steam_roots() -> list[Path]:
     roots: list[Path] = []
     if sys.platform == "win32":
@@ -580,7 +580,7 @@ def detect_game_dir() -> Path | None:
 
 
 def file_version(path: Path) -> str:
-    """Read the Win32 FileVersion of a DLL (returns '' elsewhere / on failure)."""
+    
     if sys.platform != "win32":
         return ""
     try:
@@ -678,7 +678,7 @@ def player_log_paths() -> list[Path]:
     ]
 
 
-# ───────────────────────────── performance boost ─────────────────────────────
+# boost
 PERF_PROFILES = {
     "stock": dict(priority=False, quiet_logs=False, gfx_jobs=False, nolog=False, d3d11=False, workers=False, no_throttle=False),
     "boost": dict(priority=True, quiet_logs=True, gfx_jobs=True, nolog=True, d3d11=False, workers=True, no_throttle=True),
@@ -880,7 +880,7 @@ def _disable_power_throttle(pid: int) -> bool:
         k32.CloseHandle(h)
 
 
-# ───────────────────────────── cool text for bg workers ─────────────────────────────
+
 class _CheckSignals(QObject):
     done = Signal(bool)
 
@@ -914,7 +914,7 @@ class _BoostSignals(QObject):
 
 
 class BoostWorker(QRunnable):
-    """Wait for Gorilla Tag, then pin High priority and disable EcoQoS throttling."""
+    """gorilla tag im waiting👅👅👅"""
 
     def __init__(self, high_priority: bool, no_throttle: bool):
         super().__init__()
@@ -1019,7 +1019,7 @@ class InstallWorker(QThread):
                     pass
 
 
-# ───────────────────────────── reusable widgets ─────────────────────────────
+# widgets become recycle
 class ToggleSwitch(QAbstractButton):
     def __init__(self, checked: bool = False):
         super().__init__()
@@ -1278,7 +1278,7 @@ class Toast(QFrame):
             self.hide()
 
 
-# ───────────────────────────── window chrome ─────────────────────────────
+
 class Root(QWidget):
     """Transparent margin around the shell that doubles as the resize border for the frameless window."""
     MARGIN = 8
@@ -1372,7 +1372,6 @@ class TitleBar(QFrame):
         h = QHBoxLayout(self)
         h.setContentsMargins(28, 6, 24, 0)
         h.setSpacing(12)
-        # the design has no theme menu or maximize button; these stay around (hidden) so the rest of the app can still talk to them
         self.menu_btn = TitleBtn("menu", "Themes & appearance")
         self.menu_btn.hide()
         self.btn_max = TitleBtn("maximize", "Maximize")
@@ -1416,7 +1415,6 @@ class NavButton(QPushButton):
         self.setFixedHeight(42)
 
 
-# ───────────────────────────── theme drawer (hamburger menu) ─────────────────────────────
 class Swatch(QAbstractButton):
     def __init__(self, color: str, name: str):
         super().__init__()
@@ -1565,7 +1563,7 @@ class ThemeDrawer(QFrame):
         v.addLayout(row)
         v.addSpacing(6)
 
-        # background modes
+        # bgmode
         v.addWidget(section_label("BACKGROUND"))
         self.mode_group = QButtonGroup(self)
         self.mode_group.setExclusive(True)
@@ -1646,7 +1644,7 @@ class ThemeDrawer(QFrame):
         self.preview.update()
 
 
-# ───────────────────────────── pages ─────────────────────────────
+# page
 class PlayPage(QWidget):
     COL_W = 400
 
@@ -1758,7 +1756,7 @@ class ImpactMeter(QWidget):
 
 class PerformancePage(QWidget):
     OPTS = [
-        ("priority", "High process priority", "makes windows treat gtag like it matters more than your other apps. easiest free fps gain tbh"),
+        ("priority", "High process priority", "makes windows treat gtag like it matters more than your other apps free fps"),
         ("no_throttle", "Disable EcoQoS throttling", "stops windows from slowing the game down when it thinks it's running in the background"),
         ("gfx_jobs", "Unity graphics jobs", "turns on gfx jobs in boot.config so rendering uses more than one core"),
         ("workers", "Extra job threads", f"adds -job-worker-count {cpu_workers()} so unity can use pretty much all your cores"),
