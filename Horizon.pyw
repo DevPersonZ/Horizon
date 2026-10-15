@@ -37,7 +37,7 @@ from PySide6.QtWidgets import (
 )
 from shiboken6 import isValid
 
-# ───────────────────────────── constants ─────────────────────────────
+
 APP_NAME = "Horizon Loader"
 APP_VERSION = "2.1.0"
 STEAM_APP_ID = "1533390"
@@ -56,9 +56,9 @@ NoBrush = Qt.BrushStyle.NoBrush
 
 TM: "ThemeManager" = None  # set in main() once QApplication exists
 
-# fonts from the design: Technological (title), Century Gothic (everything else), Copperplate Gothic (game name).
-# Century Gothic + Copperplate Gothic ship with Windows/Office. Technological is a free download, so drop its
-# .ttf/.otf into a "fonts" folder next to this script and it gets loaded automatically (any other fonts there too).
+
+
+
 FONT_UI = '"Century Gothic", "URW Gothic", "Avenir Next", "Futura", "Segoe UI", Arial, sans-serif'
 FONT_TITLE = '"Technological", "Orbitron", "Century Gothic", sans-serif'
 FONT_GAME = '"Copperplate Gothic Bold", "Copperplate Gothic Light", "Copperplate Gothic", "Copperplate", "Trajan Pro", Georgia, serif'
